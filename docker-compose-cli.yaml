@@ -8,8 +8,8 @@ version: '2'
 volumes:
   orderer8.example.com:
   peer0.org0.example.com:
-  peer0.org2.example.com:
   peer0.org1.example.com:
+  peer0.org2.example.com:
   peer0.org3.example.com:
   
 networks:
@@ -33,19 +33,19 @@ services:
     networks:
       - byfn
  
-  peer0.org2.example.com:
-    extends:
-      file:   base/docker-compose-base.yaml
-      service: peer0.org2.example.com
-    container_name: peer0.org2.example.com
-    networks:
-      - byfn
- 
   peer0.org1.example.com:
     extends:
       file:   base/docker-compose-base.yaml
       service: peer0.org1.example.com
     container_name: peer0.org1.example.com
+    networks:
+      - byfn
+ 
+  peer0.org2.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: peer0.org2.example.com
+    container_name: peer0.org2.example.com
     networks:
       - byfn
  
@@ -69,8 +69,8 @@ services:
       - FABRIC_LOGGING_SPEC=INFO
       - CORE_PEER_ID=cli
       - CORE_PEER_ADDRESS=peer0.org0.example.com:7051
-      - CORE_PEER_LOCALMSPID=Org0MSP
-      - CORE_PEER_TLS_ENABLED=false
+      - CORE_PEER_LOCALMSPID=org0MSP
+      - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org0.example.com/peers/peer0.org0.example.com/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org0.example.com/peers/peer0.org0.example.com/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org0.example.com/peers/peer0.org0.example.com/tls/ca.crt
@@ -86,8 +86,8 @@ services:
     depends_on:
       - orderer8.example.com
       - peer0.org0.example.com
-      - peer0.org2.example.com
       - peer0.org1.example.com
+      - peer0.org2.example.com
       - peer0.org3.example.com
       
     networks:
