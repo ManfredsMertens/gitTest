@@ -15,7 +15,7 @@ services:
         - ORDERER_GENERAL_LOCALMSPID=Orderer8MSP
         - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
         # enabled TLS
-        - ORDERER_GENERAL_TLS_ENABLED=false
+        - ORDERER_GENERAL_TLS_ENABLED=true
         - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
         - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
         - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
@@ -52,27 +52,6 @@ services:
         - 7051:7051
         - 7053:7053
 
-    peer0.org2.example.com:
-      container_name: peer0.org2.example.com
-      extends:
-        file: peer-base.yaml
-        service: peer-base
-      environment:
-        - CORE_PEER_ID=peer0.org2.example.com
-        - CORE_PEER_ADDRESS=peer0.org2.example.com:9051
-        - CORE_PEER_LISTENADDRESS=peer0.org2.example.com:9051
-        - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
-        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:9051
-        - CORE_PEER_LOCALMSPID=Org2MSP
-      volumes:
-          - /var/run/:/host/var/run/
-          - ../crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp:/etc/hyperledger/fabric/msp
-          - ../crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls:/etc/hyperledger/fabric/tls
-          - peer0.org2.example.com:/var/hyperledger/production
-      ports:
-        - 9051:9051
-        - 9053:9053
-
     peer0.org1.example.com:
       container_name: peer0.org1.example.com
       extends:
@@ -93,6 +72,27 @@ services:
       ports:
         - 8051:8051
         - 8053:8053
+
+    peer0.org2.example.com:
+      container_name: peer0.org2.example.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+      environment:
+        - CORE_PEER_ID=peer0.org2.example.com
+        - CORE_PEER_ADDRESS=peer0.org2.example.com:9051
+        - CORE_PEER_LISTENADDRESS=peer0.org2.example.com:9051
+        - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:9051
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:9051
+        - CORE_PEER_LOCALMSPID=Org2MSP
+      volumes:
+          - /var/run/:/host/var/run/
+          - ../crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp:/etc/hyperledger/fabric/msp
+          - ../crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls:/etc/hyperledger/fabric/tls
+          - peer0.org2.example.com:/var/hyperledger/production
+      ports:
+        - 9051:9051
+        - 9053:9053
 
     peer0.org3.example.com:
       container_name: peer0.org3.example.com
